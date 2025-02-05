@@ -4,7 +4,13 @@ WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN npm install --production --silent && mv node_modules ../
 COPY . .
+RUN npm run build  # Or yarn build, depending on your package manager
+
+# Use a smaller Nginx image (or any other web server) for serving the static files
+FROM nginx:alpine
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
 EXPOSE 5174
-RUN chown -R node /usr/src/app
-USER node
-CMD ["npm", "run", "dev","--port", "5174"]
+
+CMD ["nginx", "-g", "daemon off;"]
