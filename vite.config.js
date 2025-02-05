@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   // Optionally, you can include server settings if needed
   server: {
-    port: 5173, // Default Vite port
+    port: 8080, // Default Vite port
     host: true, // Allow access from the local network
     build: {
       outDir: 'dist',
